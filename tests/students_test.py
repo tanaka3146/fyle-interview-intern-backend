@@ -71,3 +71,45 @@ def test_assingment_resubmitt_error(client, h_student_1):
     assert response.status_code == 400
     assert error_response['error'] == 'FyleError'
     assert error_response["message"] == 'only a draft assignment can be submitted'
+
+
+def test_edit_draft_assignment_student_1(client, h_student_1):
+    text = "hello"
+
+    response = client.post(
+        '/student/assignments',
+        headers=h_student_1,
+        json={
+            'id': 3,
+            'content': text
+        })
+
+    assert response.status_code == 400
+
+def test_edit_submit_assignment_student_1(client, h_student_1):
+    text = "hello"
+
+    response = client.post(
+        '/student/assignments',
+        headers=h_student_1,
+        json={
+            'id': 1,
+            'content': text
+        })
+
+    assert response.status_code == 400
+
+def test_submit_missing_payload(client,h_student_1):
+        
+    response = client.post('/student/assignments/submit', headers=h_student_1)
+    
+    
+    assert response.status_code == 400
+
+def test_submit_auth_header(client,h_teacher_1):
+        
+    response = client.post('/student/assignments/submit', headers=h_teacher_1)
+    
+    
+    assert response.status_code == 403
+

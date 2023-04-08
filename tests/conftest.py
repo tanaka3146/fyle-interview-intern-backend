@@ -1,6 +1,6 @@
 import pytest
 import json
-from tests import app
+from tests import app,db,User
 
 
 @pytest.fixture
@@ -54,3 +54,10 @@ def h_teacher_2():
     }
 
     return headers
+
+@pytest.fixture
+def user() :
+    return User
+@pytest.fixture
+def database() :
+    return db
